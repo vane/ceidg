@@ -1,8 +1,7 @@
 name: Get ceidg data
 
 on:
-  schedule:
-  - cron: "0 10 * * *"
+  
 
 jobs:
   stale:
@@ -11,13 +10,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
-    - name: Set up Python 3.8
+    - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: 3.9
     - name: Install dependencies
       run: |
-        pip install -r requirements.txt
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Create local changes
       run: |
         python ceidg.py
