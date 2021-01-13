@@ -1,7 +1,8 @@
 name: Get ceidg data
 
 on:
-  
+  schedule:
+  - cron: "0 9 * * *"
 
 jobs:
   stale:
