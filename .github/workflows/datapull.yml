@@ -1,0 +1,32 @@
+name: Get ecdc.europa.eu csv data
+
+on:
+  schedule:
+  - cron: "0 14 * * *"
+
+jobs:
+  stale:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+    - name: Create local changes
+      run: |
+        python ceidg.py
+    - name: Commit files
+      run: |
+        git config --local user.email "github.action@vane.pl"
+        git config --local user.name "GitHub Action"
+        git commit -m "Update data" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
