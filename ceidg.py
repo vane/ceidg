@@ -3,6 +3,8 @@
 from bs4 import BeautifulSoup, Comment
 from datetime import datetime
 import requests
+import urllib3
+requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS = 'ALL:@SECLEVEL=1'
 url = 'https://prod.ceidg.gov.pl/ceidg.cms.engine/Template/Includes/StatisticPage.aspx?Id=3814CF7F-246D-4CC3-8B89-88AA1395DF1D'
 resp = requests.get(url)
 soup = BeautifulSoup(resp.content, 'html.parser')
