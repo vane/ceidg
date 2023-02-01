@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import os
 from bs4 import BeautifulSoup, Comment
 from datetime import datetime
 import requests
@@ -13,7 +14,14 @@ registered = tdlist[1].text.strip()
 renewed = tdlist[3].text.strip()
 suspended = tdlist[5].text.strip()
 closed = tdlist[7].text.strip()
+
 all = BeautifulSoup(str(soup.find_all(string=lambda text: isinstance(text, Comment))[0]), 'html.parser').find_all('td')[1].text.strip()
-dt = datetime.now().strftime('%Y-%m-%d')
-with open(f'data/{dt}.txt', 'w+') as f:
+
+dt = datetime.now()
+fname = dt.strftime('%Y-%m-%d')
+dt_folder_name = dt.strftime('%Y')
+if not os.path.exists(f'data/{dt_folder_name}'):
+    os.makedirs(f'data/{dt_folder_name}')
+
+with open(f'data/{dt_folder_name}/{fname}.txt', 'w+') as f:
     f.write(f'{registered},{renewed},{suspended},{closed},{all}')
